@@ -1,0 +1,19 @@
+{
+  "name": "cosmjs-sandbox",
+  "version": "1.0.0",
+  "description": "Experiment with simple CosmJS concepts.",
+  "main": "index.js",
+  "scripts": {
+    "create": "node generate_mnemonic",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "B9lab",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "10.7.0"
+  },
+  "dependencies": {
+    "@cosmjs/stargate": "0.28.2",
+    "fs": "^0.0.1-security"
+  }
+}
