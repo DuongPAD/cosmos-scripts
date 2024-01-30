@@ -20,7 +20,6 @@ echo "Username,Address,Amount,Staked Amount,Total Amount" > "$csv_file"
 
 # Loop through each element in the array
 for ((i=0; i<$num_elements; i++)); do
-    phrase=$(echo "$json_data" | jq -r ".[$i].phrase")
     address=$(echo "$json_data" | jq -r ".[$i].address")
     username="oliver$(printf "%02d" $((i+1)))"
 

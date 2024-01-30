@@ -24,7 +24,6 @@ random_sleep=$(( (RANDOM % 53) + 8 ))
 for ((i=19; i< 30; i++)); do
     # Get phrase and username
     address=$(echo "$json_data" | jq -r ".[$i].address")
-    phrase=$(echo "$json_data" | jq -r ".[$i].phrase")
     username="oliver$(printf "%02d" $((i+1)))"
 
     printf "\e[34m$username\e[0m"
