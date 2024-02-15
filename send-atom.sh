@@ -21,12 +21,22 @@ for ((i=0; i<$num_elements; i++)); do
     echo
     echo "send money to $address"
 
-    stake_amount=$((RANDOM % 400001 + 25100000))"uatom"
+    # stake_amount=$((RANDOM % 400001 + 25100000))"uatom"
+    send_amount="25200000uatom"
 
+    balance_json=$(gaiad query bank balances $address --denom uatom -o json)
+    balance=$(echo "$balance_json" | jq -r '.amount')
+    balance_in_millions=$(echo "scale=6; $balance / 1000000" | bc)
+    echo $balance_in_millions
+    if (( $(echo "$balance_in_millions < 0.  1" | bc -l) )); then
+        echo "y" | gaiad tx bank send oliver01 $address $send_amount --from="oliver01"  --chain-id="cosmoshub-4" --gas-adjustment 1.5 --gas auto --gas-prices 0.005uatom
+        sleep 24
+    else
+        sleep 5
+    fi
     # Send money to wallet
-    echo "y" | gaiad tx bank send oliver01 $address $stake_amount --from="oliver01"  --chain-id="cosmoshub-4" --gas-adjustment 1.5 --gas auto --gas-prices 0.005uatom
     echo
-    sleep 15  # Sleep 15 second before continuing the loop
+    sleep 3  # Sleep 24 second before continuing the loop
 done
 echo
 echo "===================================================================================================="

@@ -2,3 +2,5 @@ oliver.json
 node_modules
 wallets_info.csv
 output.csv
+*.json
+*.csv

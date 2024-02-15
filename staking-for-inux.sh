@@ -14,13 +14,12 @@ num_elements=$(echo "$json_data" | jq '. | length')
 
 # Declare validator address
 inux_validator_address="cosmosvaloper1zgqal5almcs35eftsgtmls3ahakej6jmnn2wfj"
-random_sleep=$(( (RANDOM % 53) + 8 ))
 
 # Loop through each element in the array
 for ((i=0; i<$num_elements; i++)); do
     # Get random number
     numr=$((1 + RANDOM % 500))
-    stake_amount="25$( printf '%03d' $numr )000uatom"
+    stake_amount="$(( RANDOM % (25050000 - 25000000 + 1) + 25000000 ))uatom"
     # Get username
     username="oliver$(printf "%02d" $((i+1)))"
 
@@ -29,7 +28,7 @@ for ((i=0; i<$num_elements; i++)); do
     # Add key by phrase
     echo "y" | gaiad tx staking delegate "$inux_validator_address" $stake_amount --from="$username" --gas-adjustment 1.5 --gas auto --gas-prices 0.035uatom
     echo
-    sleep $random_sleep  # Sleep 8 second before continuing the loop
+    sleep 5  # Sleep 8 second before continuing the loop
 done
 echo
 echo "===================================================================================================="

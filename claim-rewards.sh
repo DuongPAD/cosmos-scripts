@@ -8,7 +8,7 @@ gaiad config node https://cosmoshub.validator.network:443
 
 # Read file JSON and save to array
 json_data=$(cat oliver.json)
-random_sleep=$(( (RANDOM % 53) + 8 ))
+# random_sleep=$(( (RANDOM % 53) + 8 ))
 
 # Get array length
 num_elements=$(echo "$json_data" | jq '. | length')
@@ -24,6 +24,6 @@ for ((i=0; i<$num_elements; i++)); do
     echo "y" | gaiad tx distribution withdraw-rewards "$inux_validator_address" --from="$username"  --gas-adjustment 1.5 --gas auto --gas-prices 0.009uatom
     echo "====================================================="
     echo
-    sleep $random_sleep  # Sleep 1 second before continuing the loop
+    sleep 6  # Sleep 6 second before continuing the loop
 done
 echo "Done! Claimed all rewards!"
