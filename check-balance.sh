@@ -32,7 +32,7 @@ for ((i=0; i<$num_elements; i++)); do
     balance_in_millions=$(echo "scale=6; $balance / 1000000" | bc)
 
     # Check if amount is less than 1, print in red
-    if (( $(echo "$balance_in_millions < 0.  1" | bc -l) )); then
+    if (( $(echo "$balance_in_millions < 0.1" | bc -l) )); then
         printf  "\e[31mBalance: $balance_in_millions\e[0m\n"
     else
         echo "Balance: $balance_in_millions"
