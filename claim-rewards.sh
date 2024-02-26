@@ -21,7 +21,7 @@ for ((i=0; i<$num_elements; i++)); do
     username="oliver$(printf "%02d" $((i+1)))"
     printf "\e[34m$username\e[0m"
     echo
-    echo "y" | gaiad tx distribution withdraw-rewards "$inux_validator_address" --from="$username"  --gas-adjustment 1.5 --gas auto --gas-prices 0.009uatom
+    echo "y" | gaiad tx distribution withdraw-rewards "$inux_validator_address" --from="$username"  --gas-adjustment 1.5 --gas auto --gas-prices 0.015uatom
     echo "====================================================="
     echo
     sleep 6  # Sleep 6 second before continuing the loop
