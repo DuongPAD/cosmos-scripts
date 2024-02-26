@@ -3,8 +3,8 @@
 GOPATH=$HOME/go
 PATH=$GOPATH/bin:$PATH
 
-gaiad config chain-id cosmoshub-4
-gaiad config node https://cosmoshub.validator.network:443
+osmosisd config node https://osmosis-rpc.publicnode.com:443
+osmosisd config chain-id osmosis-1
 
 # Read file JSON and save to array
 json_data=$(cat oliver.json)
@@ -14,15 +14,15 @@ num_elements=$(echo "$json_data" | jq '. | length')
 
 for ((i=0; i<$num_elements; i++)); do
     # Get random number
-    ibc_amount="100000uatom"
+    ibc_amount="90000ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2"
     # Get username
     username="oliver$(printf "%02d" $((i+1)))"
-    osmosis_address=$(echo "$json_data" | jq -r ".[$i].osmosis")
+    cosmos_address=$(echo "$json_data" | jq -r ".[$i].address")
 
     printf "\e[34m$username\e[0m"
     echo
     # Add key by phrase
-    echo "y" | gaiad tx ibc-transfer transfer transfer channel-141 $osmosis_address $ibc_amount --from="$username" --gas-adjustment 1.5 --gas auto --gas-prices 0.035uatom
+    echo "y" | osmosisd tx ibc-transfer transfer transfer channel-0 $cosmos_address $ibc_amount --from="$username" --gas-adjustment 1.5 --gas auto --gas-prices "0.045ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2"
     echo
     sleep 5  # Sleep 5 second before continuing the loop
 done

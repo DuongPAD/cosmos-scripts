@@ -4,7 +4,7 @@ const fs = require("fs");
 const generateKey = async () => {
   const data = [];
 
-  for (let index = 1; index < 20; index++) {
+  for (let index = 1; index < 21; index++) {
     const wallet = await DirectSecp256k1HdWallet.generate(12);
     const accounts = await wallet.getAccounts();
 
@@ -18,7 +18,7 @@ const generateKey = async () => {
   }
 
   // Lưu dữ liệu vào file JSON
-  fs.writeFileSync("oliver.json", JSON.stringify(data, null, 2));
+  fs.writeFileSync("new.json", JSON.stringify(data, null, 2));
 }
 
 generateKey();
