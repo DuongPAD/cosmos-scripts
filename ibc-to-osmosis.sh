@@ -14,7 +14,7 @@ num_elements=$(echo "$json_data" | jq '. | length')
 
 for ((i=0; i<$num_elements; i++)); do
     # Get random number
-    ibc_amount="100000uatom"
+    ibc_amount="60000uatom"
     # Get username
     username="oliver$(printf "%02d" $((i+1)))"
     osmosis_address=$(echo "$json_data" | jq -r ".[$i].osmosis")

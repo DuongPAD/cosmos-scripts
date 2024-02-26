@@ -14,7 +14,7 @@ num_elements=$(echo "$json_data" | jq '. | length')
 
 for ((i=0; i<$num_elements; i++)); do
     # Get random number
-    ibc_amount="70000ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2"
+    ibc_amount="30000ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2"
     # Get username
     username="oliver$(printf "%02d" $((i+1)))"
     cosmos_address=$(echo "$json_data" | jq -r ".[$i].address")
