@@ -28,5 +28,5 @@ for ((i=0; i<$num_elements; i++)); do
 done
 echo
 echo "===================================================================================================="
-printf "\e[32mDone! Staked all wallets!\e[0m"
+printf "\e[32mDone! IBC to cosmos all wallets!\e[0m"
 echo
