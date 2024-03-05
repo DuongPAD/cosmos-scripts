@@ -3,4 +3,5 @@ node_modules
 wallets_info.csv
 output.csv
 *.json
+!package.json
 *.csv

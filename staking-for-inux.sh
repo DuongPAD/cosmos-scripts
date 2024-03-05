@@ -20,6 +20,7 @@ for ((i=0; i<$num_elements; i++)); do
     # Get random number
     numr=$((1 + RANDOM % 500))
     stake_amount="$(( RANDOM % (25050000 - 25000000 + 1) + 25000000 ))uatom"
+    # stake_amount="$((150000 + RANDOM % 50001))uatom"
     # Get username
     username="oliver$(printf "%02d" $((i+1)))"
 
