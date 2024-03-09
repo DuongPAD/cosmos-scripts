@@ -61,7 +61,7 @@ for ((i=0; i<$num_elements; i++)); do
 
     echo
     echo "_____________________________"
-    sleep 2  # Sleep 2 seconds before continuing the loop
+    sleep 1  # Sleep 1 seconds before continuing the loop
 done
 
 total_all_wallets_in_millions=$(echo "scale=6; $total_all_wallets / 1000000" | bc)

@@ -18,8 +18,7 @@ inux_validator_address="cosmosvaloper1zgqal5almcs35eftsgtmls3ahakej6jmnn2wfj"
 # Loop through each element in the array
 for ((i=0; i<$num_elements; i++)); do
     username="oliver$(printf "%02d" $((i+1)))"
-    printf "\e[34m$username\e[0m"
-    echo
+    printf "\e[34m$username\e[0m | "
     address=$(echo "$json_data" | jq -r ".[$i].address")
     balance_json=$(gaiad query bank balances $address --denom uatom -o json)
     balance=$(echo "$balance_json" | jq -r '.amount')
@@ -40,4 +39,3 @@ done
 echo
 echo "===================================================================================================="
 printf "\e[32mDone! Staked all wallets!\e[0m"
-echo
