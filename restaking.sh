@@ -31,7 +31,7 @@ for ((i=0; i<$num_elements; i++)); do
         printf  "\e[31mBalance is less than 0.1ATOM. Skipping stake.\e[0m\n"
     else
         echo "Balance: $balance_in_millions ATOM"
-        stake_amount="$((balance - 60000))uatom"
+        stake_amount="$((balance - 80000))uatom"
         echo "Stake amount: $stake_amount"
         echo "y" | gaiad tx staking delegate "$inux_validator_address" $stake_amount --from="$username" --gas-adjustment 1.5 --gas auto --gas-prices 0.035uatom
     fi
