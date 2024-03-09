@@ -13,32 +13,31 @@ json_data=$(cat oliver.json)
 num_elements=$(echo "$json_data" | jq '. | length')
 
 # Declare validator address
-#stake_amount="25000000uatom"
-# stake_amount="100000uatom"
 inux_validator_address="cosmosvaloper1zgqal5almcs35eftsgtmls3ahakej6jmnn2wfj"
-pryzm_validator_address="cosmosvaloper1hmd535f69t3x262m6s9wc6jd0dmel2zevhyuhm"
-
-random_sleep=$(( (RANDOM % 53) + 8 ))
 
 # Loop through each element in the array
-for ((i=19; i< 30; i++)); do
-    # Get phrase and username
-    address=$(echo "$json_data" | jq -r ".[$i].address")
+for ((i=0; i<$num_elements; i++)); do
     username="oliver$(printf "%02d" $((i+1)))"
-
     printf "\e[34m$username\e[0m"
     echo
+    address=$(echo "$json_data" | jq -r ".[$i].address")
+    balance_json=$(gaiad query bank balances $address --denom uatom -o json)
+    balance=$(echo "$balance_json" | jq -r '.amount')
+    balance_in_millions=$(echo "scale=6; $balance / 1000000" | bc)
 
-    staking_json=$(gaiad query staking delegations $address -o json);
-    staked_amount=$(echo "$staking_json" | jq -r --arg validator_address "$pryzm_validator_address" '.delegation_responses[] | select(.delegation.validator_address == $validator_address) | .delegation.shares | tonumber | floor')
-
-    echo "Staked Amount for PRYZM: $staked_amount"l
-    
-    echo "y" | gaiad tx staking redelegate $pryzm_validator_address $inux_validator_address "25000000uatom" --from="$username" --gas="auto" --gas-adjustment="1.5" --gas-prices="0.04uatom"
-    echo
-    # sleep $random_sleep  # Sleep 8 second before continuing the loop
+    # Check if amount is less than 1, print in red
+    if (( $(echo "$balance_in_millions < 0.1" | bc -l) )); then
+        printf  "\e[31mBalance: $balance_in_millions\e[0m\n"
+        printf  "\e[31mBalance is less than 0.1ATOM. Skipping stake.\e[0m\n"
+    else
+        echo "Balance: $balance_in_millions ATOM"
+        stake_amount="$((balance - 60000))uatom"
+        echo "Stake amount: $stake_amount"
+        echo "y" | gaiad tx staking delegate "$inux_validator_address" $stake_amount --from="$username" --gas-adjustment 1.5 --gas auto --gas-prices 0.035uatom
+    fi
+    sleep 5  # Sleep 8 second before continuing the loop
 done
 echo
 echo "===================================================================================================="
-printf "\e[32mDone! Restaked all wallets!\e[0m"
+printf "\e[32mDone! Staked all wallets!\e[0m"
 echo
