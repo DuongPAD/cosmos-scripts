@@ -32,7 +32,7 @@ for ((i=0; i<$num_elements; i++)); do
         echo "Balance: $balance_in_millions ATOM"
         stake_amount="$((balance - 80000))uatom"
         echo "Stake amount: $stake_amount"
-        echo "y" | gaiad tx staking delegate "$inux_validator_address" $stake_amount --from="$username" --gas-adjustment 1.5 --gas auto --gas-prices 0.035uatom
+        echo "y" | gaiad tx staking delegate "$inux_validator_address" $stake_amount --from="$username" --gas-adjustment 1.8 --gas auto --gas-prices 0.038uatom
     fi
     sleep 5  # Sleep 8 second before continuing the loop
 done

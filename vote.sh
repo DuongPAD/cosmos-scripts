@@ -58,7 +58,7 @@ for ((i=0; i<$num_elements; i++)); do
     gaiad tx gov vote $vote_id $vote_type --from="$username" --chain-id="cosmoshub-4" --gas-adjustment 1.8 --gas auto --gas-prices 0.028uatom -y
     printf "\e[32mDone! $username voted $vote_type for proposal $vote_id!\e[0m"
     echo
-    sleep 8  # Sleep 8 second before continuing the loop
+    sleep 2  # Sleep 2 second before continuing the loop
 done
 echo
 echo "===================================================================================================="
