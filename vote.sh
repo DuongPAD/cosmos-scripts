@@ -55,7 +55,7 @@ for ((i=0; i<$num_elements; i++)); do
     printf "\e[34m$username\e[0m"
     echo
     # Add key by phrase
-    gaiad tx gov vote $vote_id $vote_type --from="$username" --chain-id="cosmoshub-4" --gas-adjustment 1.5 --gas auto --gas-prices 0.025uatom -y
+    gaiad tx gov vote $vote_id $vote_type --from="$username" --chain-id="cosmoshub-4" --gas-adjustment 1.8 --gas auto --gas-prices 0.028uatom -y
     printf "\e[32mDone! $username voted $vote_type for proposal $vote_id!\e[0m"
     echo
     sleep 8  # Sleep 8 second before continuing the loop
