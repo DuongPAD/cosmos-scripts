@@ -13,14 +13,14 @@ json_data=$(cat stars.json)
 # Get array length
 num_elements=$(echo "$json_data" | jq '. | length')
 
-contract_nft="stars1kcp3lpuyney9d46znpqaw0xh54c2qevs2le8lavz7jukgnam9waqr49fyu"
+contract_nft="stars1655x90lju9nz2e685xkezdl6m8pacccpltfda84qnfgxz8yk8m7q0tvequ"
 
 # Loops through each element in the array
 for ((i=0; i<50; i++)); do
     username="oliver$(printf "%02d" $((i+1)))"
     printf "\e[34m$username\e[0m"
     echo
-    echo "y" | starsd tx wasm execute "$contract_nft" '{"mint":{}}' --amount 399000000ustars --from="$username"  --gas="500000" --gas-adjustment="1.80" &
+    echo "y" | starsd tx wasm execute "$contract_nft" '{"mint":{}}' --amount 399000000ustars --from="$username"  --gas="1500000" --gas-adjustment="1.80" &
     echo "====================================================="
     echo
     sleep 0.5  # Sleep 1 second before continuing the loop
