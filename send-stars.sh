@@ -17,9 +17,6 @@ for ((i=0; i<$num_elements; i++)); do
     address=$(echo "$json_data" | jq -r ".[$i].address")
     username="oliver$(printf "%02d" $((i+1)))"
 
-    balance_main_account=$(starsd query bank balances stars184zleex484jr6gk38jrvs5avv0g0dkv28ajxlj --denom ustars -o json)
-    echo "main account: $balance_main_account"
-
     printf "\e[34m$username\e[0m"
     echo
     echo "send money to $address"
@@ -32,16 +29,16 @@ for ((i=0; i<$num_elements; i++)); do
     echo "Balance: $balance_in_millions"
     if (( $(echo "$balance_in_millions < 0.1" | bc -l) )); then
         echo "send money to $address"
-        echo "y" | starsd tx bank send oliver01 $address $send_amount --from="oliver01"  --chain-id="cosmoshub-4" --gas-adjustment 1.8 --gas auto --gas-prices 0.005uatom
+        # echo "y" | starsd tx bank send oliver01 $address $send_amount --from="oliver01"  --chain-id="cosmoshub-4" --gas-adjustment 1.8 --gas auto --gas-prices 0.005uatom
         echo "done"
-        # sleep 16
+        sleep 16
     else
         echo "balance is greater than 0.1"
         sleep 5
     fi
     # Send money to wallet
     echo
-    sleep 3  # Sleep 24 second before continuing the loop
+    sleep 1  # Sleep 24 second before continuing the loop
 done
 echo
 echo "===================================================================================================="

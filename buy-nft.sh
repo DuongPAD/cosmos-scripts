@@ -23,6 +23,6 @@ for ((i=0; i<$num_elements; i++)); do
     echo "y" | starsd tx wasm execute "$contract_nft" '{"mint":{}}' --amount 399000000ustars --from="$username"  --gas="1500000" --gas-adjustment="1.80"
     echo "====================================================="
     echo
-    sleep 1  # Sleep 1 second before continuing the loop
+    sleep 0.5  # Sleep 1 second before continuing the loop
 done
 echo "Done! Buy Nft!"
