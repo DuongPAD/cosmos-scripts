@@ -29,7 +29,7 @@ for ((i=0; i<$num_elements; i++)); do
     echo "Balance: $balance_in_millions"
     if (( $(echo "$balance_in_millions < 0.1" | bc -l) )); then
         echo "send money to $address"
-        echo "y" | starsd tx bank send oliver01 $address $send_amount --from="oliver01"  --chain-id="cosmoshub-4" --gas-adjustment 1.8 --gas auto --gas-prices 0.005uatom
+        echo "y" | starsd tx bank send oliver01 $address $send_amount --from="oliver01" --gas-adjustment 1.8 --gas auto --gas-prices 0.05ustars
         echo "done"
         sleep 16
     else
