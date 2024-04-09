@@ -13,7 +13,7 @@ json_data=$(cat stars.json)
 num_elements=$(echo "$json_data" | jq '. | length')
 
 # Loop through each element in the array
-for ((i=2; i<$num_elements; i++)); do
+for ((i=0; i<$num_elements; i++)); do
     address=$(echo "$json_data" | jq -r ".[$i].address")
     username="oliver$(printf "%02d" $((i+1)))"
 
