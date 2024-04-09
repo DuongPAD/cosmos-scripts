@@ -20,7 +20,7 @@ for ((i=0; i<$num_elements; i++)); do
     username="oliver$(printf "%02d" $((i+1)))"
     printf "\e[34m$username\e[0m"
     echo
-    echo "y" | starsd tx wasm execute "$contract_nft" '{"mint":{}}' --amount 399000000ustars --from="$username"  --gas="1500000" --gas-adjustment="1.80"
+    echo "y" | starsd tx wasm execute "$contract_nft" '{"mint":{}}' --amount 399000000ustars --from="$username"  --gas="500000" --gas-adjustment="1.80" &
     echo "====================================================="
     echo
     sleep 0.5  # Sleep 1 second before continuing the loop
