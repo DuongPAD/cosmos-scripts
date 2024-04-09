@@ -1,0 +1,26 @@
+#!/bin/bash
+
+GOPATH=$HOME/go
+PATH=$GOPATH/bin:$PATH
+
+starsd config node https://rpc.stargaze-apis.com:443
+starsd config chain-id stargaze-1
+
+# Read file JSON and save to array
+json_data=$(cat stars.json)
+
+# Get array length
+num_elements=$(echo "$json_data" | jq '. | length')
+
+# Loop through each element in the array
+for ((i=0; i<$num_elements; i++)); do
+    phrase=$(echo "$json_data" | jq -r ".[$i].phrase")
+    username="oliver$(printf "%02d" $((i+1)))"
+
+    printf "\e[34m$username\e[0m"
+    echo
+    # Add key by phrase
+    echo "$phrase" | starsd keys add "$username" --recover
+done
+
+printf "\e[32mDone! Imported all wallets!\e[0m"
