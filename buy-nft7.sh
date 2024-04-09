@@ -16,7 +16,7 @@ num_elements=$(echo "$json_data" | jq '. | length')
 contract_nft="stars1kcp3lpuyney9d46znpqaw0xh54c2qevs2le8lavz7jukgnam9waqr49fyu"
 
 # Loops through each element in the array
-for ((i=0; i<50; i++)); do
+for ((i=301; i<331; i++)); do
     username="oliver$(printf "%02d" $((i+1)))"
     printf "\e[34m$username\e[0m"
     echo
