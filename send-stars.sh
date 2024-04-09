@@ -13,7 +13,7 @@ json_data=$(cat stars.json)
 num_elements=$(echo "$json_data" | jq '. | length')
 
 # Loop through each element in the array
-for ((i=0; i<$num_elements; i++)); do
+for ((i=2; i<$num_elements; i++)); do
     address=$(echo "$json_data" | jq -r ".[$i].address")
     username="oliver$(printf "%02d" $((i+1)))"
 
@@ -29,7 +29,7 @@ for ((i=0; i<$num_elements; i++)); do
     echo "Balance: $balance_in_millions"
     if (( $(echo "$balance_in_millions < 0.1" | bc -l) )); then
         echo "send money to $address"
-        echo "y" | starsd tx bank send oliver01 $address $send_amount --from="oliver01" --gas-adjustment 1.8 --gas auto --gas-prices 0.05ustars
+        echo "y" | starsd tx bank send oliver01 $address $send_amount --from="oliver01" --gas-adjustment 1.8 --gas auto --gas-prices 1.3ustars
         echo "done"
         sleep 16
     else
