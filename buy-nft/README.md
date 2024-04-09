@@ -6,6 +6,7 @@ Create new folder on desktop, open Terminal at folder
 
 ```
 git clone https://github.com/public-awesome/stargaze
+cd stargaze
 git checkout v13.0.1
 git clone https://github.com/cosmos/ibc-go/
 git checkout v7.3.2
