@@ -284,25 +284,29 @@ async function sellStrategy() {
 
     const nfts = await getOwnedTokens(wallet.address)
 
-    for (const nft of nfts) {
-      const tokenId = Number(nft.tokenId)
-      let rarity = 'groovy'
+    if (nfts.length) {
+      for (const nft of nfts) {
+        const tokenId = Number(nft.tokenId)
+        let rarity = 'groovy'
 
-      if (legendaryIds.includes(tokenId)) {
-        rarity = 'legendary'
-      } else if (divineIds.includes(tokenId)) {
-        rarity = 'divine'
+        if (legendaryIds.includes(tokenId)) {
+          rarity = 'legendary'
+        } else if (divineIds.includes(tokenId)) {
+          rarity = 'divine'
+        }
+
+        const price = await getRandomPrice(rarity)
+
+        await sellNFT(i, wallet.address, tokenId, price, rarity)
       }
 
-      const price = await getRandomPrice(rarity)
-
-      await sellNFT(i, wallet.address, tokenId, price, rarity)
+      const randomDelay = Math.floor(
+        Math.random() * (maxDelay - minDelay) + minDelay
+      )
+      await sleep(randomDelay)
+    } else {
+      console.log(chalk.gray('Skipped'))
     }
-
-    const randomDelay = Math.floor(
-      Math.random() * (maxDelay - minDelay) + minDelay
-    )
-    await sleep(randomDelay)
   }
 }
 
