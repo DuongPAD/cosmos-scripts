@@ -131,10 +131,52 @@ async function getRandomPrice(rarity) {
   return newPrice
 }
 
-async function sellNFT(mnemonic, tokenId, price, rarity) {
-  const { address, client } = await getClient(mnemonic)
+function isAddressInLog(address) {
+  let logArray = []
 
-  console.log(chalk.blue(`Wallet ${address}`))
+  if (fs.existsSync('log.json')) {
+    const existingLog = fs.readFileSync('log.json', 'utf-8')
+    logArray = JSON.parse(existingLog)
+  }
+
+  return logArray.some(entry => entry.wallet === address)
+}
+
+function getLog() {
+  let existingLog = []
+
+  if (fs.existsSync('log.json')) {
+    const existingLogContent = fs.readFileSync('log.json', 'utf-8')
+    existingLog = JSON.parse(existingLogContent)
+  }
+
+  return existingLog
+}
+
+function appendToLog(logEntry) {
+  let logArray = []
+
+  if (fs.existsSync('log.json')) {
+    const existingLog = fs.readFileSync('log.json', 'utf-8')
+    logArray = JSON.parse(existingLog)
+  }
+
+  logArray.push(logEntry)
+
+  fs.writeFileSync('log.json', JSON.stringify(logArray, null, 2))
+}
+
+async function sellNFT(index, address, tokenId, price, rarity) {
+  const logEntry = {
+    index: index + 1,
+    wallet: address,
+    success: true,
+    tokenId,
+    price,
+    txHash: ''
+  }
+  let error = null
+
   console.log(
     chalk.blue(
       `Selling NFT with tokenId ${tokenId} at price ${price} STARS (${rarity})`
@@ -197,9 +239,32 @@ async function sellNFT(mnemonic, tokenId, price, rarity) {
   try {
     // const result = await client.signAndBroadcast(address, messages, 'auto')
     // assertIsDeliverTxSuccess(result)
-    // console.log(chalk.green(`Tx hash: ${result.transactionHash}`))
+    // console.log(chalk.green(`✅ Success! Tx hash: ${result.transactionHash}`))
+    // logEntry.txHash = result.transactionHash
+    if (!isAddressInLog(address)) {
+      appendToLog(logEntry)
+    }
   } catch (error) {
-    console.error(error)
+    console.log(chalk.red(`❌ Failed! Please check the log file`))
+  } finally {
+    if (error !== null) {
+      logEntry.success = false
+      logEntry.error = error
+    }
+
+    let existingLog = getLog()
+
+    const existingEntryIndex = existingLog.findIndex(
+      entry => entry.wallet === address
+    )
+
+    if (existingEntryIndex !== -1) {
+      existingLog[existingEntryIndex] = logEntry
+    } else {
+      existingLog.push(logEntry)
+    }
+
+    fs.writeFileSync('log.json', JSON.stringify(existingLog, null, 2))
   }
 }
 
@@ -207,11 +272,15 @@ async function sellStrategy() {
   const jsonData = fs.readFileSync('../stars.json')
   const data = JSON.parse(jsonData)
 
-  const maxDelay = 30 * 60 * 1000
-  const minDelay = 2 * 60 * 1000
+  //   const maxDelay = 30 * 60 * 1000
+  //   const minDelay = 2 * 60 * 1000
+  const maxDelay = 6 * 1000
+  const minDelay = 2 * 1000
 
   for (let i = 0; i < data.length; i++) {
     const wallet = data[i]
+    console.log('------------------------')
+    console.log(chalk.blue(`Wallet ${wallet.address}`))
 
     const nfts = await getOwnedTokens(wallet.address)
 
@@ -226,9 +295,8 @@ async function sellStrategy() {
       }
 
       const price = await getRandomPrice(rarity)
-      console.log('------------------------')
 
-      await sellNFT(wallet.phrase, tokenId, price, rarity)
+      await sellNFT(i, wallet.address, tokenId, price, rarity)
     }
 
     const randomDelay = Math.floor(
@@ -239,24 +307,26 @@ async function sellStrategy() {
 }
 
 async function main() {
-  console.log(chalk.gray('Checking balance...'))
-  const { balances, hasBalancesBelowOne } = await checkBalance()
+  //   console.log(chalk.gray('Checking balance...'))
+  //   const { balances, hasBalancesBelowOne } = await checkBalance()
 
-  if (hasBalancesBelowOne) {
-    console.log(chalk.red('Warning: Some wallets have a balance less than 1.'))
+  //   if (hasBalancesBelowOne) {
+  //     console.log(chalk.red('Warning: Some wallets have a balance less than 1.'))
 
-    balances.forEach((balance, index) => {
-      if (balance.value < 1) {
-        console.log(
-          `Wallet ${index + 1}: ${balance.wallet}: ${balance.value} STARS`
-        )
-      }
-    })
-  } else {
-    console.log(chalk.green('✅'))
+  //     balances.forEach((balance, index) => {
+  //       if (balance.value < 1) {
+  //         console.log(
+  //           `Wallet ${index + 1}: ${balance.wallet}: ${balance.value} STARS`
+  //         )
+  //       }
+  //     })
+  //   } else {
+  //     console.log(chalk.green('✅'))
 
-    await sellStrategy()
-  }
+  //     await sellStrategy()
+  //   }
+
+  await sellStrategy()
 }
 
 main()
