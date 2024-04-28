@@ -166,7 +166,7 @@ function appendToLog(logEntry) {
   fs.writeFileSync('log.json', JSON.stringify(logArray, null, 2))
 }
 
-async function sellNFT(index, address, tokenId, price, rarity) {
+async function sellNFT(index, address, client, tokenId, price, rarity) {
   const logEntry = {
     index: index + 1,
     wallet: address,
@@ -237,15 +237,12 @@ async function sellNFT(index, address, tokenId, price, rarity) {
   ]
 
   try {
-    // const result = await client.signAndBroadcast(address, messages, 'auto')
-    // assertIsDeliverTxSuccess(result)
-    // console.log(chalk.green(`✅ Success! Tx hash: ${result.transactionHash}`))
-    // logEntry.txHash = result.transactionHash
-    if (!isAddressInLog(address)) {
-      appendToLog(logEntry)
-    }
-  } catch (error) {
+    const result = await client.signAndBroadcast(address, messages, 'auto')
+    console.log(chalk.green(`✅ Success! Tx hash: ${result.transactionHash}`))
+    logEntry.txHash = result.transactionHash
+  } catch (err) {
     console.log(chalk.red(`❌ Failed! Please check the log file`))
+    error = err.toString()
   } finally {
     if (error !== null) {
       logEntry.success = false
@@ -272,13 +269,13 @@ async function sellStrategy() {
   const jsonData = fs.readFileSync('../stars.json')
   const data = JSON.parse(jsonData)
 
-  //   const maxDelay = 30 * 60 * 1000
-  //   const minDelay = 2 * 60 * 1000
-  const maxDelay = 6 * 1000
-  const minDelay = 2 * 1000
+  const maxDelay = 30 * 60 * 1000
+  const minDelay = 2 * 60 * 1000
 
   for (let i = 0; i < data.length; i++) {
     const wallet = data[i]
+    const { client } = await getClient(wallet.phrase)
+
     console.log('------------------------')
     console.log(chalk.blue(`Wallet ${wallet.address}`))
 
@@ -297,7 +294,7 @@ async function sellStrategy() {
 
         const price = await getRandomPrice(rarity)
 
-        await sellNFT(i, wallet.address, tokenId, price, rarity)
+        await sellNFT(i, wallet.address, client, tokenId, price, rarity)
       }
 
       const randomDelay = Math.floor(
