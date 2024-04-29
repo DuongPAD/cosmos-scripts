@@ -63,7 +63,13 @@ async function getBalanceWithDelay(client, address, asset, delay) {
 }
 
 async function checkBalance() {
-  const jsonData = fs.readFileSync('../stars.json')
+  const starsJsonPath = '../stars.json'
+
+  if (!fs.existsSync(starsJsonPath)) {
+    throw new Error('File stars.json not found')
+  }
+
+  const jsonData = fs.readFileSync(starsJsonPath)
   const data = JSON.parse(jsonData)
 
   const promises = data.map(async (wallet, index) => {
@@ -266,7 +272,13 @@ async function sellNFT(index, address, client, tokenId, price, rarity) {
 }
 
 async function sellStrategy() {
-  const jsonData = fs.readFileSync('../stars.json')
+  const starsJsonPath = '../stars.json'
+
+  if (!fs.existsSync(starsJsonPath)) {
+    throw new Error('File stars.json not found')
+  }
+
+  const jsonData = fs.readFileSync(starsJsonPath)
   const data = JSON.parse(jsonData)
 
   const maxDelay = 30 * 60 * 1000
