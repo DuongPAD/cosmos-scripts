@@ -4,7 +4,7 @@ GOPATH=$HOME/go
 PATH=$GOPATH/bin:$PATH
 
 gaiad config chain-id cosmoshub-4
-gaiad config node https://cosmoshub.validator.network:443
+gaiad config node https://cosmos-rpc.publicnode.com:443
 
 # Read file JSON and save to array
 json_data=$(cat oliver.json)

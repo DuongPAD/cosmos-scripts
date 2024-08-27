@@ -4,7 +4,7 @@ GOPATH=$HOME/go
 PATH=$GOPATH/bin:$PATH
 
 gaiad config chain-id cosmoshub-4
-gaiad config node https://cosmoshub.validator.network:443
+gaiad config node https://cosmos-rpc.publicnode.com:443
 
 # Read file JSON and save to array
 json_data=$(cat oliver.json)
@@ -19,8 +19,8 @@ inux_validator_address="cosmosvaloper1zgqal5almcs35eftsgtmls3ahakej6jmnn2wfj"
 for ((i=0; i<$num_elements; i++)); do
     # Get random number
     numr=$((1 + RANDOM % 500))
-    stake_amount="$(( RANDOM % (25050000 - 25000000 + 1) + 25000000 ))uatom"
-    # stake_amount="$((150000 + RANDOM % 50001))uatom"
+    # stake_amount="$(( RANDOM % (25050000 - 25000000 + 1) + 25000000 ))uatom"
+    stake_amount="10000uatom"
     # Get username
     username="oliver$(printf "%02d" $((i+1)))"
 
