@@ -3,8 +3,8 @@
 GOPATH=$HOME/go
 PATH=$GOPATH/bin:$PATH
 
-gaiad config chain-id cosmoshub-4
-gaiad config node https://cosmos-rpc.publicnode.com:443
+# gaiad config chain-id cosmoshub-4
+# gaiad config node https://cosmos-rpc.publicnode.com:443
 
 # Read file JSON and save to array
 json_data=$(cat oliver.json)
@@ -32,7 +32,7 @@ for ((i=0; i<$num_elements; i++)); do
         echo "Balance: $balance_in_millions ATOM"
         stake_amount="$((balance - 80000))uatom"
         echo "Stake amount: $stake_amount"
-        echo "y" | gaiad tx staking delegate "$inux_validator_address" $stake_amount --from="$username" --gas-adjustment 1.8 --gas auto --gas-prices 0.038uatom
+        echo "y" | gaiad tx staking delegate "$inux_validator_address" $stake_amount --from="$username" --chain-id="cosmoshub-4" --node="https://cosmos-rpc.publicnode.com:443" --gas-adjustment 1.8 --gas auto --gas-prices 0.038uatom
     fi
     sleep 1  # Sleep 8 second before continuing the loop
 done

@@ -3,8 +3,8 @@
 GOPATH=$HOME/go
 PATH=$GOPATH/bin:$PATH
 
-gaiad config chain-id cosmoshub-4
-gaiad config node https://cosmos-rpc.publicnode.com:443
+# gaiad config chain-id cosmoshub-4
+# gaiad config node https://cosmos-rpc.publicnode.com:443
 
 # Read file JSON and save to array
 json_data=$(cat oliver.json)
@@ -55,7 +55,7 @@ for ((i=0; i<$num_elements; i++)); do
     printf "\e[34m$username\e[0m"
     echo
     # Add key by phrase
-    gaiad tx gov vote $vote_id $vote_type --from="$username" --chain-id="cosmoshub-4" --gas-adjustment 1.8 --gas auto --gas-prices 0.028uatom -y
+    gaiad tx gov vote $vote_id $vote_type --from="$username" --chain-id="cosmoshub-4" --node="https://cosmos-rpc.publicnode.com:443" --gas-adjustment 1.8 --gas auto --gas-prices 0.028uatom -y
     printf "\e[32mDone! $username voted $vote_type for proposal $vote_id!\e[0m"
     echo
     sleep 1  # Sleep 1 second before continuing the loop
