@@ -4,7 +4,7 @@ GOPATH=$HOME/go
 PATH=$GOPATH/bin:$PATH
 
 gaiad config set client chain-id cosmoshub-4
-gaiad config set client node https://cosmoshub.validator.network:443
+gaiad config set client node https://cosmos-rpc.publicnode.com:443
 
 # Read file JSON and save to array
 json_data=$(cat oliver.json)
@@ -20,16 +20,24 @@ echo "Username,Address,Amount,Staked Amount,Total Amount" > "$csv_file"
 
 # Loop through each element in the array
 for ((i=0; i<$num_elements; i++)); do
-    address=$(echo "$json_data" | jq -r ".[$i].address")
     username="oliver$(printf "%02d" $((i+1)))"
+    printf "\e[34m$username\e[0m | "
+    address=$(echo "$json_data" | jq -r ".[$i].address")
 
-    printf "\e[34m$username\e[0m"
-    echo
-    echo "$address"
-   
-    balance_json=$(gaiad query bank balances $address --denom uatom -o json)
-    balance=$(echo "$balance_json" | jq -r '.amount')
+    # balance_json=$(gaiad query account $address)
+    balance_json=$(gaiad q bank balances $address --output json)
+    echo "address: $address"
+    echo "balance_json: $balance_json"
+
+    # Extract the balance for uatom denom
+    balance=$(echo "$balance_json" | jq -r '.balances[] | select(.denom=="uatom") | .amount')
+
+    # If no uatom balance is found, set balance to 0
+    balance=${balance:-0}
+    echo "balance: $balance"
     balance_in_millions=$(echo "scale=6; $balance / 1000000" | bc)
+    echo "balance_in_millions: $balance_in_millions"
+
 
     # Check if amount is less than 1, print in red
     if (( $(echo "$balance_in_millions < 0.1" | bc -l) )); then
