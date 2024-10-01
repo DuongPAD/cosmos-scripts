@@ -15,7 +15,7 @@ async function checkAirdropHavaCoin() {
       const url = "https://havacoin.xyz/api/balance";
       const payload = { address };
 
-      const response = await axios.post(url, payload);
+      const response = await axios.get(url, payload);
       console.log('response.data: ', response.data);
 
       if (response && response.data?.success) {
