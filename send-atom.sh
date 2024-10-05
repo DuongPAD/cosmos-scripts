@@ -24,7 +24,7 @@ for ((i=0; i<$num_elements; i++)); do
     # stake_amount=$((RANDOM % 400001 + 25100000))"uatom"
     send_amount="50000uatom"
 
-    echo "send money to $address"
+    # echo "send money to $address"
     echo "y" | gaiad tx bank send oliver01 $address $send_amount --from="oliver01"  --chain-id="cosmoshub-4" --node="https://cosmos-rpc.publicnode.com:443" --gas-adjustment 1.8 --gas auto --gas-prices 0.005uatom
     echo "done"
     sleep 8
