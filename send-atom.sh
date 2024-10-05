@@ -22,24 +22,40 @@ for ((i=0; i<$num_elements; i++)); do
     echo "send money to $address"
 
     # stake_amount=$((RANDOM % 400001 + 25100000))"uatom"
-    send_amount="25200000uatom"
+    send_amount="50000uatom"
 
-    balance_json=$(gaiad query bank balances $address --denom uatom -o json)
-    balance=$(echo "$balance_json" | jq -r '.amount')
-    balance_in_millions=$(echo "scale=6; $balance / 1000000" | bc)
-    echo "Balance: $balance_in_millions"
-    if (( $(echo "$balance_in_millions < 0.1" | bc -l) )); then
-        echo "send money to $address"
-        echo "y" | gaiad tx bank send oliver01 $address $send_amount --from="oliver01"  --chain-id="cosmoshub-4" --node="https://cosmos-rpc.publicnode.com:443" --gas-adjustment 1.8 --gas auto --gas-prices 0.005uatom
-        echo "done"
-        sleep 24
-    else
-        echo "balance is greater than 0.1"
-        sleep 5
-    fi
+    echo "send money to $address"
+    echo "y" | gaiad tx bank send oliver01 $address $send_amount --from="oliver01"  --chain-id="cosmoshub-4" --node="https://cosmos-rpc.publicnode.com:443" --gas-adjustment 1.8 --gas auto --gas-prices 0.005uatom
+    echo "done"
+    sleep 8
+
+    # balance_json=$(gaiad q bank balances $address --output json)
+    # echo "address: $address"
+
+    # # Extract the balance for uatom denom
+    # balance=$(echo "$balance_json" | jq -r '.balances[] | select(.denom=="uatom") | .amount')
+
+    # # If no uatom balance is found, set balance to 0
+    # balance=${balance:-0}
+    # balance_in_millions=$(echo "scale=6; $balance / 1000000" | bc)
+    # echo "balance_in_millions: $balance_in_millions"
+
+    # balance_json=$(gaiad query bank balances $address --denom uatom -o json)
+    # balance=$(echo "$balance_json" | jq -r '.amount')
+    # balance_in_millions=$(echo "scale=6; $balance / 1000000" | bc)
+    # echo "Balance: $balance_in_millions"
+    # if (( $(echo "$balance_in_millions < 0.1" | bc -l) )); then
+    #     echo "send money to $address"
+    #     echo "y" | gaiad tx bank send oliver01 $address $send_amount --from="oliver01"  --chain-id="cosmoshub-4" --node="https://cosmos-rpc.publicnode.com:443" --gas-adjustment 1.8 --gas auto --gas-prices 0.005uatom
+    #     echo "done"
+    #     sleep 24
+    # else
+    #     echo "balance is greater than 0.1"
+    #     sleep 5
+    # fi
     # Send money to wallet
-    echo
-    sleep 3  # Sleep 24 second before continuing the loop
+    # echo
+    # sleep 3  # Sleep 24 second before continuing the loop
 done
 echo
 echo "===================================================================================================="
