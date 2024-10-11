@@ -24,6 +24,6 @@ for ((i=0; i<$num_elements; i++)); do
     echo "y" | gaiad tx distribution withdraw-rewards "$inux_validator_address" --from="$username" --chain-id="cosmoshub-4" --node="https://cosmos-rpc.publicnode.com:443" --gas-adjustment 1.8 --gas auto --gas-prices 0.017uatom
     echo "====================================================="
     echo
-    sleep 3  # Sleep 6 second before continuing the loop
+    sleep 0.5  # Sleep 0.5 second before continuing the loop
 done
 echo "Done! Claimed all rewards!"
