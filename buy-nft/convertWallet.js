@@ -1,19 +1,27 @@
 import { toHex, fromBech32, toBech32, fromHex } from "@cosmjs/encoding";
 import fs from "fs";
 
-const convertwallet = async () => {
-    const jsonData = fs.readFileSync('../oliver.json')
-    const data = JSON.parse(jsonData)
-    const listStarsWallet = []
+const convertWallet = async () => {
+    const jsonData = fs.readFileSync('../oliver.json');
+    const data = JSON.parse(jsonData);
+
     for (let index = 0; index < data.length; index++) {
         const element = data[index];
-        const cosmos_wallet = element.address
-        const phrase = element.phrase
-        const hex = toHex(fromBech32(cosmos_wallet).data);
-        const stars_wallet = toBech32("stars", fromHex(hex))
-        listStarsWallet.push({"address": stars_wallet, "phrase": phrase })
-    }
-    fs.writeFileSync('../stars.json', JSON.stringify(listStarsWallet, null, 2))
-}
+        const cosmosWallet = element.address;
 
-convertwallet()
+        const hex = toHex(fromBech32(cosmosWallet).data);
+        const neutronWallet = toBech32("neutron", fromHex(hex));
+
+        element.neutron = neutronWallet;
+
+        console.log('wallet', index + 1);
+        console.log('cosmos_wallet', element.address);
+        console.log('osmosis_wallet', element.osmosis);
+        console.log('neutron_wallet', neutronWallet);
+        console.log('==================================================');
+
+        fs.writeFileSync('../oliver.json', JSON.stringify(data, null, 2));
+    }
+};
+
+convertWallet()
