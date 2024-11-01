@@ -24,9 +24,7 @@ for ((i=0; i<$num_elements; i++)); do
 
     # balance_json=$(gaiad query account $address)
     balance_json=$(gaiad q bank balances $address --output json)
-    echo "address: $address"
-    echo "balance_json: $balance_json"
-
+    echo "$address"
     # Extract the balance for uatom denom
     balance=$(echo "$balance_json" | jq -r '.balances[] | select(.denom=="uatom") | .amount')
 
