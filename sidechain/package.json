@@ -1,0 +1,24 @@
+{
+  "name": "sidechain",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@cosmjs/crypto": "^0.32.4",
+    "@cosmjs/proto-signing": "^0.32.4",
+    "@solana/web3.js": "^1.95.5",
+    "axios": "^1.7.8",
+    "bip32": "^5.0.0-rc.0",
+    "bip39": "^3.1.0",
+    "bitcoinjs-lib": "^7.0.0-rc.0",
+    "ecpair": "^3.0.0-rc.0",
+    "ethers": "^6.13.4",
+    "tiny-secp256k1": "^2.2.3"
+  }
+}
