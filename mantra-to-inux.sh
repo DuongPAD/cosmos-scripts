@@ -26,9 +26,9 @@ for ((i=0; i<num_elements; i++)); do
     echo
 
     staking_json=$(gaiad query staking delegations $address -o json);
-    staked_amount=$(echo "$staking_json" | jq -r --arg validator_address "$inux_validator_address" '.delegation_responses[] | select(.delegation.validator_address == $validator_address) | .balance.amount | tonumber | floor')
+    staked_amount=$(echo "$staking_json" | jq -r --arg validator_address "$mantra_validator_address" '.delegation_responses[] | select(.delegation.validator_address == $validator_address) | .balance.amount | tonumber | floor')
     if (( staked_amount > 10000 )); then
-      final_stake_amount="$(staked_amount)uatom"
+      final_stake_amount="$((staked_amount))uatom"
       echo "y" | gaiad tx staking redelegate $mantra_validator_address $inux_validator_address $final_stake_amount --from="$username" --gas="auto" --gas-adjustment="1.5" --gas-prices="0.04uatom"
       echo
     else
