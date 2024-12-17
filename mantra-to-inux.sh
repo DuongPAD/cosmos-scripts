@@ -34,7 +34,7 @@ for ((i=0; i<num_elements; i++)); do
     else
       echo "Staked Amount is less than 0.001 ATOM, skipping action."
     fi
-    sleep 2  # Sleep 8 second before continuing the loop
+    sleep 12  # Sleep 8 second before continuing the loop
 done
 echo
 echo "===================================================================================================="

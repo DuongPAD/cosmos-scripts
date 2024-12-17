@@ -10,16 +10,13 @@ const convertWallet = async () => {
         const cosmosWallet = element.address;
 
         const hex = toHex(fromBech32(cosmosWallet).data);
-        const neutronWallet = toBech32("neutron", fromHex(hex));
+        const elysWallet = toBech32("elys", fromHex(hex));
 
-        element.neutron = neutronWallet;
+        element.elys = elysWallet;
 
         console.log('wallet', index + 1);
-        console.log('cosmos_wallet', element.address);
-        console.log('osmosis_wallet', element.osmosis);
-        console.log('neutron_wallet', neutronWallet);
+        console.log('elys_wallet', elysWallet);
         console.log('==================================================');
-
         fs.writeFileSync('../oliver.json', JSON.stringify(data, null, 2));
     }
 };
