@@ -56,7 +56,7 @@ async function checkAirdropElysCoin() {
       await sleep(300);
     }
         // Thêm tổng vào cuối file CSV
-    csvRows.push(`Total,,,${totalAmount.toFixed(2)}`);
+    csvRows.push(`Total,,,${totalAmount.toFixed(2)} Elys`);
     csvRows.push(`Total Wallets,,,${totalWallet}`);
 
     // Ghi dữ liệu vào file CSV
