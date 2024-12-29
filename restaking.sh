@@ -31,7 +31,7 @@ for ((i=0; i<$num_elements; i++)); do
     # If no uatom balance is found, set balance to 0
     balance=${balance:-0}
     echo "balance: $balance"
-    
+
     balance_in_millions=$(echo "scale=6; $balance / 1000000" | bc)
     echo "balance_in_millions: $balance_in_millions"
 

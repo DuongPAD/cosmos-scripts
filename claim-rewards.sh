@@ -21,10 +21,10 @@ for ((i=0; i<$num_elements; i++)); do
     username="oliver$(printf "%02d" $((i+1)))"
     printf "\e[34m$username\e[0m"
     echo
-    echo "y" | gaiad tx distribution withdraw-rewards "$mantra_validator_address" --from="$username" --chain-id="cosmoshub-4" --node="https://cosmos-rpc.publicnode.com:443" --gas-adjustment 1.8 --gas auto --gas-prices 0.017uatom
-    echo "====================================================="
-    echo
-    sleep 12 
+    # echo "y" | gaiad tx distribution withdraw-rewards "$mantra_validator_address" --from="$username" --chain-id="cosmoshub-4" --node="https://cosmos-rpc.publicnode.com:443" --gas-adjustment 1.8 --gas auto --gas-prices 0.017uatom
+    # echo "====================================================="
+    # echo
+    # sleep 12 
     echo "y" | gaiad tx distribution withdraw-rewards "$inux_validator_address" --from="$username" --chain-id="cosmoshub-4" --node="https://cosmos-rpc.publicnode.com:443" --gas-adjustment 1.8 --gas auto --gas-prices 0.017uatom
     sleep 1
 done

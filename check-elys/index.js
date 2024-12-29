@@ -13,6 +13,7 @@ async function checkAirdropElysCoin() {
     let totalWallet = 0
     const csvRows = [];
     csvRows.push("Name,Atom Address,Elys Address,Amount");
+    const elysWallets = [];
 
     for (let i = 0; i < data.length; i++) {
       const atom = data[i].address;
@@ -39,9 +40,9 @@ async function checkAirdropElysCoin() {
           totalAmount += totalForUser;
           if (totalForUser > 0) {
             totalWallet = totalWallet + 1;
+            elysWallets.push({ address: elys });
           }
           csvRows.push(`Oliver ${i+1},${atom},${elys},${totalForUser.toFixed(2)}`);
-
           console.log(`Oliver ${i+1}: ${elys}, Total for user: ${totalForUser.toFixed(2)}`);
         } else {
           console.error(`Error: Unable to fetch balance for elys ${elys}`);
@@ -55,17 +56,14 @@ async function checkAirdropElysCoin() {
       }
       await sleep(300);
     }
-        // Thêm tổng vào cuối file CSV
     csvRows.push(`Total,,,${totalAmount.toFixed(2)} Elys`);
     csvRows.push(`Total Wallets,,,${totalWallet}`);
 
-    // Ghi dữ liệu vào file CSV
     const csvContent = csvRows.join("\n");
     fs.writeFileSync('check-elys.csv', csvContent);
+    fs.writeFileSync('../elys.json', JSON.stringify(elysWallets, null, 2));
 
     console.log("CSV file created successfully!");
-    console.log(`Total Airdrop Amount: ${totalAmount.toFixed(2)}`);
-    console.log(`Total Wallets: ${totalWallet}`);
     console.log(`Total Wallet: ${totalWallet}`);
     console.log(`Total Airdrop Amount: ${totalAmount.toFixed(2)}`);
   } catch (error) {
