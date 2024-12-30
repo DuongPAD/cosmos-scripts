@@ -19,13 +19,12 @@ for ((i=0; i<num_elements; i++)); do
 
   printf "\e[34m$username\e[0m"
 
-  validator="elysvaloper1gnmpr8vvslp3shcq6e922xr0uq4aa2w5gdzht0"
-  gas_prices="0.06ibc/C4CFF46FD6DE35CA4CF4CE031E643C8FDC9BA4B99AE598E9B0ED98FE3A2319F9"
+  gas_prices="0.02ibc/C4CFF46FD6DE35CA4CF4CE031E643C8FDC9BA4B99AE598E9B0ED98FE3A2319F9"
 
   echo
   # echo $stake_amount_str
   echo "Stake Eden: $address"
-  echo "y" | elysd tx commitment stake $stake_amount_str ueden $validator --from $username --chain-id="elys-1" --node="https://rpc.elys.network:443" --gas-adjustment 1.8 --gas auto --gas-prices $gas_prices
+  echo "y" | elysd tx commitment vest $stake_amount_str ueden --from $username --chain-id="elys-1" --node="https://rpc.elys.network:443" --gas-adjustment 1.5 --gas auto --gas-prices $gas_prices
   # sleep 5
 
 done
