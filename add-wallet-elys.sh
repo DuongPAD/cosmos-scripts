@@ -3,9 +3,6 @@
 GOPATH=$HOME/go
 PATH=$GOPATH/bin:$PATH
 
-elysd config node https://rpc.elys.network:443
-elysd config chain-id elys-1
-
 # Read file JSON and save to array
 json_data=$(cat oliver.json)
 
