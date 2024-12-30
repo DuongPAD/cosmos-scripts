@@ -27,7 +27,7 @@ for ((i=6; i<num_elements; i++)); do
     sleep 1
   else
     echo "send money to $address"
-    # echo "y" | elysd tx bank send oliver01 $address $send_amount --from="oliver01" --chain-id="elys-1" --node="https://rpc.elys.network:443" --gas-adjustment 1.8 --gas auto --gas-prices $gas_prices
+    echo "y" | elysd tx bank send oliver01 $address $send_amount --from="oliver01" --chain-id="elys-1" --node="https://rpc.elys.network:443" --gas-adjustment 1.8 --gas auto --gas-prices $gas_prices
     sleep 14
   fi
 
