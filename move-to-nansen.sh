@@ -13,7 +13,7 @@ json_data=$(cat oliver.json)
 num_elements=$(echo "$json_data" | jq '. | length')
 
 # Declare validator address
-mantra_validator_address="cosmosvaloper103agss48504gkk3la5xcg5kxplaf6ttnuv234h"
+nansen_validator_address="cosmosvaloper1jlr62guqwrwkdt4m3y00zh2rrsamhjf9num5xr"
 inux_validator_address="cosmosvaloper1zgqal5almcs35eftsgtmls3ahakej6jmnn2wfj"
 
 # Loop through each element in the array
@@ -33,7 +33,7 @@ for ((i=0; i<num_elements; i++)); do
       half_staked_amount=$((staked_amount / 2))
       random_reduction=$((RANDOM % 300001 + 100000))
       final_stake_amount="$((half_staked_amount - random_reduction))uatom"
-      echo "y" | gaiad tx staking redelegate $inux_validator_address $mantra_validator_address $final_stake_amount --from="$username" --gas="auto" --gas-adjustment="1.5" --gas-prices="0.04uatom"
+      echo "y" | gaiad tx staking redelegate $inux_validator_address $nansen_validator_address $final_stake_amount --from="$username" --gas="auto" --gas-adjustment="1.5" --gas-prices="0.04uatom"
       echo
     fi
     sleep 2  # Sleep 8 second before continuing the loop
