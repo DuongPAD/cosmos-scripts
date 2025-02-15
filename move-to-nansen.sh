@@ -35,8 +35,11 @@ for ((i=0; i<num_elements; i++)); do
       final_stake_amount="$((half_staked_amount - random_reduction))uatom"
       echo "y" | gaiad tx staking redelegate $inux_validator_address $nansen_validator_address $final_stake_amount --from="$username" --gas="auto" --gas-adjustment="1.5" --gas-prices="0.04uatom"
       echo
+      sleep_time=$((RANDOM % 43 + 8))
+      echo "Sleeping for $sleep_time seconds..."
+      sleep $sleep_time
     fi
-    sleep 2  # Sleep 8 second before continuing the loop
+    sleep 2  # Sleep 2 second before continuing the loop
 done
 echo
 echo "===================================================================================================="
