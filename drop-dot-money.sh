@@ -43,7 +43,7 @@ for ((i=0; i<$num_elements; i++)); do
     # Add key by phrase
     echo "y" | gaiad tx ibc-transfer transfer transfer channel-569 $receiver $ibc_amount --from="$username" --memo "$memo_content" --chain-id="cosmoshub-4" --node="https://cosmos-rpc.publicnode.com:443" --gas-adjustment 1.5 --gas auto --gas-prices 0.05uatom
     echo
-    sleep 8  # Sleep 8 second before continuing the loop
+    sleep 2  # Sleep 8 second before continuing the loop
   fi
   sleep 1  # Sleep 1 second before continuing the loop
 

@@ -3,8 +3,9 @@ const path = require('path');
 const { DirectSecp256k1HdWallet } = require('@cosmjs/proto-signing');
 const { sha256 } = require('@cosmjs/crypto');
 
-async function signMessagesFromFile(filePath, message) {
+async function signMessagesFromFile(filePath) {
   try {
+    // Bước 1: Đọc file JSON để lấy danh sách ví
     const fileData = fs.readFileSync(filePath, 'utf8');
     const wallets = JSON.parse(fileData);
 
@@ -12,6 +13,7 @@ async function signMessagesFromFile(filePath, message) {
       throw new Error('File does not contain an array of wallets.');
     }
 
+    // Bước 2: Lặp qua từng ví và ký thông điệp
     const signatures = [];
     for (const wallet of wallets) {
       const seedPhrase = wallet.phrase;
@@ -23,15 +25,25 @@ async function signMessagesFromFile(filePath, message) {
 
       console.log(`Processing wallet for address: ${wallet.address}`);
 
+      // Tạo ví từ seed phrase
       const cosmosWallet = await DirectSecp256k1HdWallet.fromMnemonic(seedPhrase, {
-        prefix: 'cosmos',
+        prefix: 'cosmos', // Prefix cho Cosmos
       });
 
       const [account] = await cosmosWallet.getAccounts();
       console.log('Signer address:', account.address);
 
-      const hashedMessage = sha256(new TextEncoder().encode(message));
+      // Tạo dữ liệu thông điệp
+      const messageData = {
+        address: account.address, // Địa chỉ Cosmos
+        receiverAddress: wallet.bitcoin?.segwit?.address || '', // Địa chỉ SegWit từ wallet
+        timestamp: Date.now(), // Timestamp hiện tại
+      };
 
+      // Băm thông điệp
+      const hashedMessage = sha256(new TextEncoder().encode(JSON.stringify(messageData)));
+
+      // Ký thông điệp
       const signature = await cosmosWallet.signDirect(account.address, {
         bodyBytes: hashedMessage,
         authInfoBytes: new Uint8Array(),
@@ -41,6 +53,7 @@ async function signMessagesFromFile(filePath, message) {
 
       const signedData = {
         address: wallet.address,
+        message: messageData,
         signature: Buffer.from(signature.signature.signature, 'base64').toString('hex'),
       };
 
@@ -49,6 +62,7 @@ async function signMessagesFromFile(filePath, message) {
       signatures.push(signedData);
     }
 
+    // Bước 3: Lưu chữ ký vào file mới
     const outputFilePath = path.join(path.dirname(filePath), 'signed_messages.json');
     fs.writeFileSync(outputFilePath, JSON.stringify(signatures, null, 2));
 
@@ -58,8 +72,8 @@ async function signMessagesFromFile(filePath, message) {
   }
 }
 
+// Đường dẫn tới file JSON chứa seed phrases
 const filePath = path.join(__dirname, '..', 'oliver_new.json');
 
-const message = 'I am verifying my ownership of this address.';
-
-signMessagesFromFile(filePath, message);
+// Ký thông điệp từ file
+signMessagesFromFile(filePath);

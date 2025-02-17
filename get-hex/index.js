@@ -6,7 +6,7 @@ const fs = require('fs')
 
 const generateWalletId = async () => {
   try {
-    const jsonData = fs.readFileSync('../oliver.json', 'utf8')
+    const jsonData = fs.readFileSync('../oliver_new.json', 'utf8')
     const data = JSON.parse(jsonData)
 
     const newData = []
