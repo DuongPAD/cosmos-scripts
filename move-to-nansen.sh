@@ -27,19 +27,12 @@ for ((i=0; i<num_elements; i++)); do
 
     staking_json=$(gaiad query staking delegations $address -o json);
     staked_amount=$(echo "$staking_json" | jq -r --arg validator_address "$inux_validator_address" '.delegation_responses[] | select(.delegation.validator_address == $validator_address) | .balance.amount | tonumber | floor')
-    if (( staked_amount < 25000000 )); then
-      echo "Staked Amount is less than or equal to 25 ATOM, skipping action."
-    else
-      half_staked_amount=$((staked_amount / 2))
-      random_reduction=$((RANDOM % 300001 + 100000))
-      final_stake_amount="$((half_staked_amount - random_reduction))uatom"
-      echo "y" | gaiad tx staking redelegate $inux_validator_address $nansen_validator_address $final_stake_amount --from="$username" --gas="auto" --gas-adjustment="1.5" --gas-prices="0.04uatom"
-      echo
-      sleep_time=$((RANDOM % 43 + 8))
-      echo "Sleeping for $sleep_time seconds..."
-      sleep $sleep_time
-    fi
-    sleep 2  # Sleep 2 second before continuing the loop
+    final_stake_amount="$(staked_amount)uatom"
+    echo "y" | gaiad tx staking redelegate $inux_validator_address $nansen_validator_address $final_stake_amount --from="$username" --gas="auto" --gas-adjustment="1.5" --gas-prices="0.04uatom"
+    echo
+    sleep_time=$((RANDOM % 43 + 8))
+    echo "Sleeping for $sleep_time seconds..."
+    sleep $sleep_time
 done
 echo
 echo "===================================================================================================="
