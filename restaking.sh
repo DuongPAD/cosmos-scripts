@@ -13,7 +13,7 @@ json_data=$(cat oliver.json)
 num_elements=$(echo "$json_data" | jq '. | length')
 
 # Declare validator address
-inux_validator_address="cosmosvaloper1zgqal5almcs35eftsgtmls3ahakej6jmnn2wfj"
+inux_validator_address="cosmosvaloper1jlr62guqwrwkdt4m3y00zh2rrsamhjf9num5xr"
 
 # Loop through each element in the array
 # Loop through each element in the array
